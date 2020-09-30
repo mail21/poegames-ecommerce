@@ -1,0 +1,48 @@
+.produtcs__container {
+  display: flex;
+  color: white;
+  padding: 20px;
+  .produtcs__sidebar {
+    flex: 1;
+    margin-right: 30px;
+
+    .produtcs__sidebar__items {
+      border-top: 1px solid;
+      border-bottom: 1px solid;
+      padding: 10px;
+
+      .item__list {
+        margin: 15px 0;
+        color: rgb(143, 143, 143);
+        &:hover {
+          color: white;
+        }
+      }
+
+      .produtcs__sidebar__items__div {
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        padding: 20px 14px;
+        .arrow {
+          width: 20px;
+          transition: 0.75s;
+          height: 20px;
+        }
+      }
+    }
+
+    .products__myfavourites {
+      display: flex;
+      cursor: pointer;
+      padding: 10px;
+      transition: border 1s ease;
+    }
+  }
+
+  .produtcs__cardList {
+    flex: 2;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
