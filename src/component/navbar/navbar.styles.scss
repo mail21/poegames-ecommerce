@@ -1,0 +1,36 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  background-color: #000000;
+  padding: 10px;
+
+  .nav-logo {
+    margin-left: 4em;
+  }
+  ul {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    margin-right: 4em;
+  }
+
+  li {
+    list-style: none;
+    margin-right: 4em;
+  }
+
+  li:nth-child(2) {
+    display: flex;
+    align-items: center;
+    margin-right: 10em;
+  }
+
+  li:nth-child(2) a {
+    margin-right: 5px;
+  }
+
+  li a {
+    text-decoration: none;
+    color: white;
+  }
+}
