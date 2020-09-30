@@ -1,0 +1,24 @@
+.card {
+  color: white;
+  width: 170px;
+  height: 325px;
+  background-color: #1e1e1e;
+  margin: 10px;
+  .card__image {
+    width: 170px;
+    height: 225px;
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .card__details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .card__details__icon svg {
+    margin: 0 5px;
+    fill: white;
+  }
+}
