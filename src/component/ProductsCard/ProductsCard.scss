@@ -4,12 +4,18 @@
   height: 325px;
   background-color: #1e1e1e;
   margin: 10px;
-  .card__image {
+  .card__img {
     width: 170px;
     height: 225px;
     border-radius: 10px;
-    background-size: cover;
-    background-repeat: no-repeat;
+    object-fit: cover;
+  }
+  .card__name {
+    width: 170px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
   }
   .card__details {
     display: flex;

@@ -8,8 +8,8 @@ import './ProductsCard.scss';
 function ProductsCard({ name, gambar }) {
   return (
     <div className="card">
-      <div className="card__image" style={{ backgroundImage: `url(${gambar})` }}></div>
-      <div>{name}</div>
+      <img src={gambar} alt="Card Gambar" className="card__img" />
+      <div className="card__name">{name}</div>
       <div>Companys Name</div>
       <div className="card__details">
         <span>Rp. 0</span>
