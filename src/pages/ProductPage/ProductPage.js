@@ -21,7 +21,6 @@ function ProductPage({ history, match }) {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.short_screenshots);
         setGame(res);
         setClip(res.clip);
         setPublishers(res.publishers);
@@ -42,7 +41,7 @@ function ProductPage({ history, match }) {
               <img src={arrow} alt="arrow" className="arrowback" />
               <span style={{ marginRight: '50px' }}>Back</span>
             </div>
-            <h5>{game.name_original}</h5>
+            <h3>{game.name_original}</h3>
           </div>
           <div className="container__nav__right">
             <h3>Search bar</h3>
