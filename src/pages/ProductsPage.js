@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './../component/navbar/Navbar';
 import ProductsCard from './../component/ProductsCard/ProductsCard';
 import arrow from './../assets/arrow.svg';
 import { ReactComponent as Hearth } from './../assets/hearth.svg';
-
+import { Link } from 'react-router-dom';
 import './ProductsPage.scss';
 
 function ProductsPage() {
@@ -14,7 +13,7 @@ function ProductsPage() {
   const [listGenres, setListGenres] = useState([]);
 
   useEffect(() => {
-    fetch('https://rawg-video-games-database.p.rapidapi.com/games', {
+    fetch('https://rawg-video-games-database.p.rapidapi.com/games?page=2', {
       method: 'GET',
       headers: {
         'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
@@ -43,7 +42,6 @@ function ProductsPage() {
 
   return (
     <div>
-      <Navbar />
       <div className="produtcs__container">
         <aside className="produtcs__sidebar">
           <h4>Browse</h4>
@@ -119,13 +117,15 @@ function ProductsPage() {
         </aside>
         <article className="produtcs__cardList" style={{ display: 'flex', flexWrap: 'wrap' }}>
           {listGames.map((el) => (
-            <ProductsCard
-              key={el.id}
-              name={el.name}
-              gambar={el.background_image}
-              rating={el.rating}
-              released={el.released}
-            />
+            <Link to={`/product/${el.slug}`} style={{ textDecoration: 'none' }}>
+              <ProductsCard
+                key={el.id}
+                name={el.name}
+                gambar={el.background_image}
+                rating={el.rating}
+                released={el.released}
+              />
+            </Link>
           ))}
         </article>
       </div>

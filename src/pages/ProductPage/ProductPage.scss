@@ -1,0 +1,45 @@
+.containerBody {
+  padding: 0;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+  padding-top: 50px;
+
+  .container {
+    background-color: rgba(30, 30, 30, 0.7);
+    width: 80%;
+    margin: 0 auto;
+
+    .container__nav {
+      width: 80%;
+      display: flex;
+      margin: 0 auto;
+      justify-content: space-between;
+
+      .container__nav__left {
+        display: flex;
+        align-items: center;
+
+        .arrowback {
+          transform: rotate(180deg);
+          width: 20px;
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .container__desc {
+      background-color: #1e1e1e;
+      width: 90%;
+      margin: 0 auto;
+      display: flex;
+      padding: 20px;
+
+      & h4 {
+        color: #f34949;
+      }
+    }
+  }
+}
