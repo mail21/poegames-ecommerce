@@ -1,0 +1,11 @@
+.product__ratings__container {
+  display: flex;
+  justify-content: space-evenly;
+
+  & .product__ratings {
+    display: flex;
+    flex-direction: column;
+    width: 90px;
+    margin-right: 10px;
+  }
+}

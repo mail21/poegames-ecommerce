@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './ProductPage.scss';
 import arrow from './../../assets/arrow.svg';
+import ProductRatings from './../../component/ProductRatings/ProductRatings';
+import Carousel from 'react-elastic-carousel';
 
 function ProductPage({ history, match }) {
   const [game, setGame] = useState({});
   const [publishers, setPublishers] = useState([]);
   const [developers, setDevelopers] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [ratings, setRatings] = useState([]);
+  const [clip, setClip] = useState({});
   useEffect(() => {
     fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${match.params.slug}`, {
       method: 'GET',
@@ -17,10 +21,13 @@ function ProductPage({ history, match }) {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res.short_screenshots);
         setGame(res);
+        setClip(res.clip);
         setPublishers(res.publishers);
         setDevelopers(res.developers);
         setGenres(res.genres);
+        setRatings(res.ratings);
       });
   }, []);
   return (
@@ -41,6 +48,12 @@ function ProductPage({ history, match }) {
             <h3>Search bar</h3>
           </div>
         </div>
+
+        <Carousel itemsToShow={1}>
+          <img src={game.background_image_additional} alt="" width="644" height="361" />
+          <img src={clip.preview} alt="" width="644" height="361" />
+          <video src={clip.clip} controls></video>
+        </Carousel>
 
         <section className="container__desc">
           <div style={{ flex: '1' }}>
@@ -68,6 +81,7 @@ function ProductPage({ history, match }) {
               ))}
             </ul>
             <h4>Ratings</h4>
+            <ProductRatings ratings={ratings} />
             <h4>Playtime</h4>
             <span style={{ marginLeft: '20px' }}>{game.playtime} Hours</span>
             <h4>Release Date</h4>
