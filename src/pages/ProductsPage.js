@@ -91,7 +91,9 @@ function ProductsPage() {
             {showCategories ? (
               <>
                 {listGenres.map((el) => (
-                  <div className="item__list">{el.name} </div>
+                  <div className="item__list" key={el.id}>
+                    {el.name}
+                  </div>
                 ))}
               </>
             ) : (
@@ -117,7 +119,13 @@ function ProductsPage() {
         </aside>
         <article className="produtcs__cardList" style={{ display: 'flex', flexWrap: 'wrap' }}>
           {listGames.map((el) => (
-            <ProductsCard key={el.id} name={el.name} gambar={el.background_image} />
+            <ProductsCard
+              key={el.id}
+              name={el.name}
+              gambar={el.background_image}
+              rating={el.rating}
+              released={el.released}
+            />
           ))}
         </article>
       </div>
