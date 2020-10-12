@@ -3,41 +3,51 @@ import ProductsCard from './../component/ProductsCard/ProductsCard';
 import arrow from './../assets/arrow.svg';
 import { ReactComponent as Hearth } from './../assets/hearth.svg';
 import './ProductsPage.scss';
+import axios from 'axios';
+import CheckboxGroup from 'react-checkbox-group';
 
 function ProductsPage() {
+  const headersAPI = {
+    'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
+    'x-rapidapi-key': 'a4fe706396msh8c839cd1e6751fap164a0fjsnfc32d56a60d2',
+  };
+
+  const API_URL = 'https://rawg-video-games-database.p.rapidapi.com';
+
   const [showSort, setShowSort] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [isFavouriteClick, setIsFavouriteClick] = useState(false);
   const [listGames, setListGames] = useState([]);
   const [listGenres, setListGenres] = useState([]);
+  const [genresParams, setGenresParams] = useState([]);
 
   useEffect(() => {
-    fetch('https://rawg-video-games-database.p.rapidapi.com/games?page=2', {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
-        'x-rapidapi-key': 'a4fe706396msh8c839cd1e6751fap164a0fjsnfc32d56a60d2',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => setListGames(res.results))
-      .catch((err) => {
-        console.log(err);
-      });
-
-    fetch('https://rawg-video-games-database.p.rapidapi.com/genres', {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
-        'x-rapidapi-key': 'a4fe706396msh8c839cd1e6751fap164a0fjsnfc32d56a60d2',
-      },
-    })
-      .then((response) => response.json())
-      .then((res) => setListGenres(res.results))
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+    axios
+      .all([
+        axios({
+          method: 'GET',
+          url: `${API_URL}/games`,
+          headers: headersAPI,
+          params: {
+            page: 1,
+            search: '',
+            page_size: 10,
+            genres: genresParams.length ? genresParams.join() : null,
+          },
+        }),
+        axios({
+          method: 'GET',
+          url: `${API_URL}/genres`,
+          headers: headersAPI,
+        }),
+      ])
+      .then(
+        axios.spread((res1, res2) => {
+          setListGames(res1.data.results);
+          setListGenres(res2.data.results);
+        })
+      );
+  }, [genresParams]);
 
   return (
     <div>
@@ -85,13 +95,20 @@ function ProductsPage() {
                 }
               />
             </div>
+
             {showCategories ? (
               <>
-                {listGenres.map((el) => (
-                  <div className="item__list" key={el.id}>
-                    {el.name}
-                  </div>
-                ))}
+                <CheckboxGroup name="fruits" value={genresParams} onChange={setGenresParams}>
+                  {(Checkbox) => (
+                    <>
+                      {listGenres.map((el) => (
+                        <div className="item__list" key={el.id}>
+                          {el.name} <Checkbox value={el.slug} />
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </CheckboxGroup>
               </>
             ) : (
               <></>
