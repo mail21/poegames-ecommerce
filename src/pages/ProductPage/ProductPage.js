@@ -3,31 +3,48 @@ import './ProductPage.scss';
 import arrow from './../../assets/arrow.svg';
 import ProductRatings from './../../component/ProductRatings/ProductRatings';
 import Carousel from 'react-elastic-carousel';
+import axios from 'axios';
 
 function ProductPage({ history, match }) {
+  const headersAPI = {
+    'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
+    'x-rapidapi-key': 'a4fe706396msh8c839cd1e6751fap164a0fjsnfc32d56a60d2',
+  };
+
+  const API_URL = 'https://rawg-video-games-database.p.rapidapi.com';
+
   const [game, setGame] = useState({});
   const [publishers, setPublishers] = useState([]);
   const [developers, setDevelopers] = useState([]);
   const [genres, setGenres] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [clip, setClip] = useState({});
+  const [screenShot, setScreenShot] = useState([]);
   useEffect(() => {
-    fetch(`https://rawg-video-games-database.p.rapidapi.com/games/${match.params.slug}`, {
-      method: 'GET',
-      headers: {
-        'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
-        'x-rapidapi-key': 'a4fe706396msh8c839cd1e6751fap164a0fjsnfc32d56a60d2',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setGame(res);
-        setClip(res.clip);
-        setPublishers(res.publishers);
-        setDevelopers(res.developers);
-        setGenres(res.genres);
-        setRatings(res.ratings);
-      });
+    axios
+      .all([
+        axios({
+          method: 'GET',
+          url: `${API_URL}/games/${match.params.slug}`,
+          headers: headersAPI,
+        }),
+        axios({
+          method: 'GET',
+          url: `${API_URL}/games/${match.params.slug}/screenshots`,
+          headers: headersAPI,
+        }),
+      ])
+      .then(
+        axios.spread((res, resSS) => {
+          setGame(res.data);
+          setClip(res.data.clip);
+          setPublishers(res.data.publishers);
+          setDevelopers(res.data.developers);
+          setGenres(res.data.genres);
+          setRatings(res.data.ratings);
+          setScreenShot(resSS.data.results);
+        })
+      );
   }, []);
   return (
     <div
@@ -48,11 +65,17 @@ function ProductPage({ history, match }) {
           </div>
         </div>
 
-        <Carousel itemsToShow={1}>
-          <img src={game.background_image_additional} alt="" width="644" height="361" />
-          <img src={clip.preview} alt="" width="644" height="361" />
-          <video src={clip.clip} controls></video>
-        </Carousel>
+        <div style={{ width: '80%', margin: '10px auto' }}>
+          <Carousel itemsToShow={1} focusOnSelect>
+            {screenShot.map((ss, i) => {
+              if (screenShot.length === i + 1) {
+                return <video key={ss.id} src={clip.clip} controls></video>;
+              } else {
+                return <img key={ss.id} src={ss.image} alt="ss" width="644" height="361" />;
+              }
+            })}
+          </Carousel>
+        </div>
 
         <section className="container__desc">
           <div style={{ flex: '1' }}>
