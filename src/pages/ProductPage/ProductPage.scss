@@ -39,6 +39,19 @@
       display: flex;
       padding: 20px;
 
+      .game__description {
+        overflow: hidden !important;
+        text-align: justify;
+        text-overflow: ellipsis;
+      }
+
+      .readMoreButton {
+        cursor: pointer;
+        color: burlywood;
+        padding-left: 20px;
+        display: inline-block;
+      }
+
       & h4 {
         color: #f34949;
       }

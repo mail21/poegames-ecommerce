@@ -23,6 +23,7 @@ function ProductPage({ history, match }) {
   const [screenShot, setScreenShot] = useState([]);
   const [tags, setTags] = useState([]);
   const [platforms, setPlatforms] = useState([]);
+  const [isReadMoreClick, setIsReadMoreClick] = useState(false);
   useEffect(() => {
     axios
       .all([
@@ -98,7 +99,18 @@ function ProductPage({ history, match }) {
           </div>
           <div style={{ flex: '2' }}>
             <h4>Description</h4>
-            <p>{game.description_raw}</p>
+            <p
+              className="game__description"
+              style={isReadMoreClick ? {} : { height: '105px' }}
+            >
+              {game.description_raw}
+            </p>
+            <div
+              onClick={() => setIsReadMoreClick((prev) => !prev)}
+              className="readMoreButton"
+            >
+              {isReadMoreClick ? 'Show Less' : 'Read More'}
+            </div>
             <h4>Publisher</h4>
             <ul>
               {publishers.map((publisher) => (
@@ -147,25 +159,23 @@ function ProductPage({ history, match }) {
           </div>
         </section>
 
-        <section className="container__desc">
-          <div style={{ flex: '1' }}>
-            <h4>Spec On Pc</h4>
-          </div>
-          <div style={{ flex: '2' }}>
-            {platforms.map(({ platform, requirements }) => {
-              if (platform.name.includes('PC')) {
-                return (
-                  <>
-                    <h4>Minimum</h4>
-                    <p dangerouslySetInnerHTML={{ __html: requirements.minimum }}></p>
-                    <h4>Recommended</h4>
-                    <p dangerouslySetInnerHTML={{ __html: requirements.recommended }}></p>
-                  </>
-                );
-              }
-            })}
-          </div>
-        </section>
+        {platforms.map(({ platform, requirements }, i) => {
+          if (platform.name.includes('PC') && requirements != null) {
+            return (
+              <section key={i} className="container__desc">
+                <div style={{ flex: '1' }}>
+                  <h4>Spec On Pc</h4>
+                </div>
+                <div style={{ flex: '2' }}>
+                  <h4>Minimum</h4>
+                  <p dangerouslySetInnerHTML={{ __html: requirements.minimum }}></p>
+                  <h4>Recommended</h4>
+                  <p dangerouslySetInnerHTML={{ __html: requirements.recommended }}></p>
+                </div>
+              </section>
+            );
+          }
+        })}
       </div>
     </div>
   );
