@@ -6,11 +6,13 @@
   background-size: cover;
   color: white;
   padding-top: 50px;
+  padding-bottom: 20px;
 
   .container {
     background-color: rgba(30, 30, 30, 0.7);
     width: 80%;
     margin: 0 auto;
+    padding: 15px 0;
 
     .container__nav {
       width: 80%;
@@ -33,12 +35,32 @@
     .container__desc {
       background-color: #1e1e1e;
       width: 90%;
-      margin: 0 auto;
+      margin: 40px auto;
       display: flex;
       padding: 20px;
 
       & h4 {
         color: #f34949;
+      }
+
+      & .container__desc__tags {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+
+        .tags__item {
+          display: inline-block;
+          background-color: black;
+          padding: 12px;
+          border-radius: 15px;
+          margin: 4px 10px;
+        }
+      }
+
+      & .container__desc__platforms {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
       }
     }
   }

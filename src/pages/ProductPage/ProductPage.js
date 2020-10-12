@@ -4,6 +4,7 @@ import arrow from './../../assets/arrow.svg';
 import ProductRatings from './../../component/ProductRatings/ProductRatings';
 import Carousel from 'react-elastic-carousel';
 import axios from 'axios';
+import PlatformsList from '../../component/PlatformsList/PlatformsList';
 
 function ProductPage({ history, match }) {
   const headersAPI = {
@@ -20,6 +21,8 @@ function ProductPage({ history, match }) {
   const [ratings, setRatings] = useState([]);
   const [clip, setClip] = useState({});
   const [screenShot, setScreenShot] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [platforms, setPlatforms] = useState([]);
   useEffect(() => {
     axios
       .all([
@@ -36,12 +39,15 @@ function ProductPage({ history, match }) {
       ])
       .then(
         axios.spread((res, resSS) => {
+          // console.log(res.data);
           setGame(res.data);
           setClip(res.data.clip);
           setPublishers(res.data.publishers);
           setDevelopers(res.data.developers);
           setGenres(res.data.genres);
           setRatings(res.data.ratings);
+          setTags(res.data.tags);
+          setPlatforms(res.data.platforms);
           setScreenShot(resSS.data.results);
         })
       );
@@ -65,13 +71,22 @@ function ProductPage({ history, match }) {
           </div>
         </div>
 
-        <div style={{ width: '80%', margin: '10px auto' }}>
+        <div style={{ width: '80%', margin: '0 auto' }}>
           <Carousel itemsToShow={1} focusOnSelect>
             {screenShot.map((ss, i) => {
               if (screenShot.length === i + 1) {
                 return <video key={ss.id} src={clip.clip} controls></video>;
               } else {
-                return <img key={ss.id} src={ss.image} alt="ss" width="644" height="361" />;
+                return (
+                  <img
+                    title="asd"
+                    key={ss.id}
+                    src={ss.image}
+                    alt="ss"
+                    width="644"
+                    height="361"
+                  />
+                );
               }
             })}
           </Carousel>
@@ -108,6 +123,47 @@ function ProductPage({ history, match }) {
             <span style={{ marginLeft: '20px' }}>{game.playtime} Hours</span>
             <h4>Release Date</h4>
             <span style={{ marginLeft: '20px' }}>{game.released}</span>
+          </div>
+        </section>
+
+        <section className="container__desc">
+          <div style={{ flex: '1' }}>
+            <h4>Tags</h4>
+          </div>
+          <div style={{ flex: '2' }} className="container__desc__tags">
+            {tags.map((tag) => (
+              <div className="tags__item" key={tag.id}>
+                {tag.name}
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className="container__desc">
+          <div style={{ flex: '1' }}>
+            <h4>Platforms</h4>
+          </div>
+          <div style={{ flex: '2' }} className="container__desc__platforms">
+            <PlatformsList platforms={platforms} />
+          </div>
+        </section>
+
+        <section className="container__desc">
+          <div style={{ flex: '1' }}>
+            <h4>Spec On Pc</h4>
+          </div>
+          <div style={{ flex: '2' }}>
+            {platforms.map(({ platform, requirements }) => {
+              if (platform.name.includes('PC')) {
+                return (
+                  <>
+                    <h4>Minimum</h4>
+                    <p dangerouslySetInnerHTML={{ __html: requirements.minimum }}></p>
+                    <h4>Recommended</h4>
+                    <p dangerouslySetInnerHTML={{ __html: requirements.recommended }}></p>
+                  </>
+                );
+              }
+            })}
           </div>
         </section>
       </div>
