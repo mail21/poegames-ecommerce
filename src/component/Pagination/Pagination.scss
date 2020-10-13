@@ -6,6 +6,17 @@
   margin: 15px 0;
   display: flex;
   justify-content: center;
+  position: relative;
+  & .current__page {
+    width: 80px;
+    background: black;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    position: absolute;
+    left: 20px;
+  }
 
   & > img {
     cursor: pointer;

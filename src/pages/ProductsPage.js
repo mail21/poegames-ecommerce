@@ -254,7 +254,7 @@ function ProductsPage() {
                 );
               })}
 
-              <Pagination setPageParams={setPageParams} />
+              <Pagination pageParams={pageParams} setPageParams={setPageParams} />
             </div>
           )}
         </article>
