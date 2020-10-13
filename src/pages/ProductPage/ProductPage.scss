@@ -14,6 +14,14 @@
     margin: 0 auto;
     padding: 15px 0;
 
+    .container__loader {
+      display: flex;
+      justify-content: center;
+      flex: 1;
+      height: 50vh;
+      align-items: center;
+    }
+
     .container__nav {
       width: 80%;
       display: flex;

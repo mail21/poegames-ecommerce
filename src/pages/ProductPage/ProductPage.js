@@ -5,6 +5,7 @@ import ProductRatings from './../../component/ProductRatings/ProductRatings';
 import Carousel from 'react-elastic-carousel';
 import axios from 'axios';
 import PlatformsList from '../../component/PlatformsList/PlatformsList';
+import PacmanLoader from 'react-spinners/PacmanLoader';
 
 function ProductPage({ history, match }) {
   const headersAPI = {
@@ -24,6 +25,8 @@ function ProductPage({ history, match }) {
   const [tags, setTags] = useState([]);
   const [platforms, setPlatforms] = useState([]);
   const [isReadMoreClick, setIsReadMoreClick] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     axios
       .all([
@@ -41,6 +44,7 @@ function ProductPage({ history, match }) {
       .then(
         axios.spread((res, resSS) => {
           // console.log(res.data);
+          setIsLoading(false);
           setGame(res.data);
           setClip(res.data.clip);
           setPublishers(res.data.publishers);
@@ -56,126 +60,136 @@ function ProductPage({ history, match }) {
   return (
     <div
       className="containerBody"
-      style={{ backgroundImage: `url(${game.background_image})` }}
+      style={{
+        backgroundImage: `url(${game.background_image})`,
+      }}
     >
       <div className="container">
-        <div className="container__nav">
-          <div className="container__nav__left">
-            <div onClick={() => history.goBack()} style={{ cursor: 'pointer' }}>
-              <img src={arrow} alt="arrow" className="arrowback" />
-              <span style={{ marginRight: '50px' }}>Back</span>
+        {isLoading ? (
+          <div className="container__loader">
+            <PacmanLoader size={50} color={'yellow'} />
+          </div>
+        ) : (
+          <>
+            <div className="container__nav">
+              <div className="container__nav__left">
+                <div onClick={() => history.goBack()} style={{ cursor: 'pointer' }}>
+                  <img src={arrow} alt="arrow" className="arrowback" />
+                  <span style={{ marginRight: '50px' }}>Back</span>
+                </div>
+                <h3>{game.name_original}</h3>
+              </div>
+              <div className="container__nav__right">
+                <h3>Search bar</h3>
+              </div>
             </div>
-            <h3>{game.name_original}</h3>
-          </div>
-          <div className="container__nav__right">
-            <h3>Search bar</h3>
-          </div>
-        </div>
 
-        <div style={{ width: '80%', margin: '0 auto' }}>
-          <Carousel itemsToShow={1} focusOnSelect>
-            {screenShot.map((ss, i) => {
-              if (screenShot.length === i + 1) {
-                return <video key={ss.id} src={clip.clip} controls></video>;
-              } else {
+            <div style={{ width: '80%', margin: '0 auto' }}>
+              <Carousel itemsToShow={1} focusOnSelect>
+                {screenShot.map((ss, i) => {
+                  if (screenShot.length === i + 1) {
+                    return <video key={ss.id} src={clip.clip} controls></video>;
+                  } else {
+                    return (
+                      <img
+                        title="asd"
+                        key={ss.id}
+                        src={ss.image}
+                        alt="ss"
+                        width="644"
+                        height="361"
+                      />
+                    );
+                  }
+                })}
+              </Carousel>
+            </div>
+
+            <section className="container__desc">
+              <div style={{ flex: '1' }}>
+                <h4>About Game</h4>
+              </div>
+              <div style={{ flex: '2' }}>
+                <h4>Description</h4>
+                <p
+                  className="game__description"
+                  style={isReadMoreClick ? {} : { height: '105px' }}
+                >
+                  {game.description_raw}
+                </p>
+                <div
+                  onClick={() => setIsReadMoreClick((prev) => !prev)}
+                  className="readMoreButton"
+                >
+                  {isReadMoreClick ? 'Show Less' : 'Read More'}
+                </div>
+                <h4>Publisher</h4>
+                <ul>
+                  {publishers.map((publisher) => (
+                    <li key={publisher.id}>{publisher.name}</li>
+                  ))}
+                </ul>
+                <h4>Developers</h4>
+                <ul>
+                  {developers.map((developer) => (
+                    <li key={developer.id}>{developer.name}</li>
+                  ))}
+                </ul>
+                <h4>Genres</h4>
+                <ul>
+                  {genres.map((genre) => (
+                    <li key={genre.id}>{genre.name}</li>
+                  ))}
+                </ul>
+                <h4>Ratings</h4>
+                <ProductRatings ratings={ratings} />
+                <h4>Playtime</h4>
+                <span style={{ marginLeft: '20px' }}>{game.playtime} Hours</span>
+                <h4>Release Date</h4>
+                <span style={{ marginLeft: '20px' }}>{game.released}</span>
+              </div>
+            </section>
+
+            <section className="container__desc">
+              <div style={{ flex: '1' }}>
+                <h4>Tags</h4>
+              </div>
+              <div style={{ flex: '2' }} className="container__desc__tags">
+                {tags.map((tag) => (
+                  <div className="tags__item" key={tag.id}>
+                    {tag.name}
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section className="container__desc">
+              <div style={{ flex: '1' }}>
+                <h4>Platforms</h4>
+              </div>
+              <div style={{ flex: '2' }} className="container__desc__platforms">
+                <PlatformsList platforms={platforms} />
+              </div>
+            </section>
+
+            {platforms.map(({ platform, requirements }, i) => {
+              if (platform.name.includes('PC') && requirements != null) {
                 return (
-                  <img
-                    title="asd"
-                    key={ss.id}
-                    src={ss.image}
-                    alt="ss"
-                    width="644"
-                    height="361"
-                  />
+                  <section key={i} className="container__desc">
+                    <div style={{ flex: '1' }}>
+                      <h4>Spec On Pc</h4>
+                    </div>
+                    <div style={{ flex: '2' }}>
+                      <h4>Minimum</h4>
+                      <p dangerouslySetInnerHTML={{ __html: requirements.minimum }}></p>
+                      <h4>Recommended</h4>
+                      <p dangerouslySetInnerHTML={{ __html: requirements.recommended }}></p>
+                    </div>
+                  </section>
                 );
               }
             })}
-          </Carousel>
-        </div>
-
-        <section className="container__desc">
-          <div style={{ flex: '1' }}>
-            <h4>About Game</h4>
-          </div>
-          <div style={{ flex: '2' }}>
-            <h4>Description</h4>
-            <p
-              className="game__description"
-              style={isReadMoreClick ? {} : { height: '105px' }}
-            >
-              {game.description_raw}
-            </p>
-            <div
-              onClick={() => setIsReadMoreClick((prev) => !prev)}
-              className="readMoreButton"
-            >
-              {isReadMoreClick ? 'Show Less' : 'Read More'}
-            </div>
-            <h4>Publisher</h4>
-            <ul>
-              {publishers.map((publisher) => (
-                <li key={publisher.id}>{publisher.name}</li>
-              ))}
-            </ul>
-            <h4>Developers</h4>
-            <ul>
-              {developers.map((developer) => (
-                <li key={developer.id}>{developer.name}</li>
-              ))}
-            </ul>
-            <h4>Genres</h4>
-            <ul>
-              {genres.map((genre) => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </ul>
-            <h4>Ratings</h4>
-            <ProductRatings ratings={ratings} />
-            <h4>Playtime</h4>
-            <span style={{ marginLeft: '20px' }}>{game.playtime} Hours</span>
-            <h4>Release Date</h4>
-            <span style={{ marginLeft: '20px' }}>{game.released}</span>
-          </div>
-        </section>
-
-        <section className="container__desc">
-          <div style={{ flex: '1' }}>
-            <h4>Tags</h4>
-          </div>
-          <div style={{ flex: '2' }} className="container__desc__tags">
-            {tags.map((tag) => (
-              <div className="tags__item" key={tag.id}>
-                {tag.name}
-              </div>
-            ))}
-          </div>
-        </section>
-        <section className="container__desc">
-          <div style={{ flex: '1' }}>
-            <h4>Platforms</h4>
-          </div>
-          <div style={{ flex: '2' }} className="container__desc__platforms">
-            <PlatformsList platforms={platforms} />
-          </div>
-        </section>
-
-        {platforms.map(({ platform, requirements }, i) => {
-          if (platform.name.includes('PC') && requirements != null) {
-            return (
-              <section key={i} className="container__desc">
-                <div style={{ flex: '1' }}>
-                  <h4>Spec On Pc</h4>
-                </div>
-                <div style={{ flex: '2' }}>
-                  <h4>Minimum</h4>
-                  <p dangerouslySetInnerHTML={{ __html: requirements.minimum }}></p>
-                  <h4>Recommended</h4>
-                  <p dangerouslySetInnerHTML={{ __html: requirements.recommended }}></p>
-                </div>
-              </section>
-            );
-          }
-        })}
+          </>
+        )}
       </div>
     </div>
   );
