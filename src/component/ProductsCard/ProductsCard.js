@@ -9,7 +9,7 @@ import './ProductsCard.scss';
 function ProductsCard({ name, gambar, released, rating, slug }) {
   return (
     <div className="card">
-      <Link to={`/product/${slug}`} style={{ textDecoration: 'none', color: 'white' }}>
+      <Link to={`/products/${slug}`} style={{ textDecoration: 'none', color: 'white' }}>
         <img src={gambar} alt="Card Gambar" className="card__img" />
         <div className="card__name">{name}</div>
         <div>{released.substring(0, 4)}</div>
@@ -17,7 +17,7 @@ function ProductsCard({ name, gambar, released, rating, slug }) {
       <div className="card__details">
         <ReactStars size={22} value={rating} edit={false} isHalf={true} />
         <div className="card__details__icon">
-          <AddToCart />
+          {/* <AddToCart /> */}
           <Hearth onClick={() => console.log('asd')} />
         </div>
       </div>
