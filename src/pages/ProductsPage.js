@@ -6,6 +6,8 @@ import './ProductsPage.scss';
 import axios from 'axios';
 import CheckboxGroup from 'react-checkbox-group';
 import PacmanLoader from 'react-spinners/PacmanLoader';
+import SearchBar from './../component/SearchBar/SearchBar';
+import Pagination from './../component/Pagination/Pagination';
 
 function ProductsPage() {
   const headersAPI = {
@@ -40,6 +42,12 @@ function ProductsPage() {
   const [releasesParams, setReleasesParams] = useState('');
   const [platformParams, setPlatformParams] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchParams, setSearchParams] = useState('');
+  const [pageParams, setPageParams] = useState(1);
+
+  useEffect(() => {
+    console.log(searchParams);
+  }, [searchParams]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -50,9 +58,9 @@ function ProductsPage() {
           url: `${API_URL}/games`,
           headers: headersAPI,
           params: {
-            page: 1,
-            search: '',
-            page_size: 3,
+            page: pageParams,
+            search: searchParams,
+            page_size: 12,
             parent_platforms: platformParams.length ? platformParams.join() : null,
             genres: genresParams.length ? genresParams.join() : null,
             dates: releasesParams !== '' ? releasesParams : null,
@@ -77,7 +85,7 @@ function ProductsPage() {
           setListPlatforms(res3.data.results);
         })
       );
-  }, [genresParams, releasesParams, platformParams]);
+  }, [genresParams, releasesParams, platformParams, searchParams, pageParams]);
 
   return (
     <div>
@@ -221,23 +229,33 @@ function ProductsPage() {
         </aside>
         <article
           className="produtcs__cardList"
-          style={{ display: 'flex', flexWrap: 'wrap', alignSelf: 'baseline' }}
+          style={{ display: 'flex', flexDirection: 'column' }}
         >
+          <SearchBar setSearchParams={setSearchParams} />
           {isLoading ? (
             <div className="container__loader">
               <PacmanLoader size={50} color={'yellow'} />
             </div>
           ) : (
-            listGames.map((el) => (
-              <ProductsCard
-                key={el.id}
-                slug={el.slug}
-                name={el.name}
-                gambar={el.background_image}
-                rating={el.rating}
-                released={el.released}
-              />
-            ))
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignSelf: 'baseline' }}>
+              {listGames.map((el) => {
+                if (el.released === null) {
+                  el.released = 'null';
+                }
+                return (
+                  <ProductsCard
+                    key={el.id}
+                    slug={el.slug}
+                    name={el.name}
+                    gambar={el.background_image}
+                    rating={el.rating}
+                    released={el.released}
+                  />
+                );
+              })}
+
+              <Pagination setPageParams={setPageParams} />
+            </div>
           )}
         </article>
       </div>
