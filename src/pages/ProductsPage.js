@@ -13,13 +13,28 @@ function ProductsPage() {
   };
 
   const API_URL = 'https://rawg-video-games-database.p.rapidapi.com';
-
+  const yearsList = [
+    '2008',
+    '2009',
+    '2010',
+    '2011',
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+  ];
+  const [years, setYears] = useState(yearsList);
   const [showSort, setShowSort] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [isFavouriteClick, setIsFavouriteClick] = useState(false);
   const [listGames, setListGames] = useState([]);
   const [listGenres, setListGenres] = useState([]);
   const [genresParams, setGenresParams] = useState([]);
+  const [releasesParams, setReleasesParams] = useState('');
 
   useEffect(() => {
     axios
@@ -31,8 +46,9 @@ function ProductsPage() {
           params: {
             page: 1,
             search: '',
-            page_size: 5,
+            page_size: 3,
             genres: genresParams.length ? genresParams.join() : null,
+            dates: releasesParams !== '' ? releasesParams : null,
           },
         }),
         axios({
@@ -47,7 +63,7 @@ function ProductsPage() {
           setListGenres(res2.data.results);
         })
       );
-  }, [genresParams]);
+  }, [genresParams, releasesParams]);
 
   return (
     <div>
@@ -71,8 +87,20 @@ function ProductsPage() {
             </div>
             {showSort ? (
               <>
-                <div className="item__list">Alphabetical</div>
-                <div className="item__list">Release</div>
+                {years.map((year, i) => (
+                  <div className="item__list" key={i}>
+                    <label htmlFor={year} style={{ cursor: 'pointer' }}>
+                      {year}
+                    </label>
+                    <input
+                      type="radio"
+                      name="year"
+                      id={year}
+                      value={`${year},${years[i + 1]}`}
+                      onChange={(e) => setReleasesParams(e.target.value)}
+                    />
+                  </div>
+                ))}
               </>
             ) : (
               <></>
