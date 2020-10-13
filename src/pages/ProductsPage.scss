@@ -12,45 +12,6 @@ body {
     flex: 0.7;
     margin-right: 80px;
 
-    .produtcs__sidebar__items {
-      border-top: 1px solid;
-
-      .item__list {
-        margin: 7px 0;
-        color: rgb(143, 143, 143);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        & input {
-          width: 20px;
-          height: 30px;
-          border: 1px solid white;
-          filter: opacity(0.05);
-          cursor: pointer;
-
-          &:checked {
-            filter: opacity(0.9);
-          }
-        }
-
-        &:hover {
-          color: white;
-        }
-      }
-
-      .produtcs__sidebar__items__div {
-        display: flex;
-        justify-content: space-between;
-        cursor: pointer;
-        padding: 20px 14px;
-        .arrow {
-          width: 20px;
-          transition: 0.75s;
-          height: 20px;
-        }
-      }
-    }
-
     .products__myfavourites {
       display: flex;
       cursor: pointer;

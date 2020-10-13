@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import magnifyingGlass from './../../assets/magnifying-search-lenses-tool.svg';
 import './SearchBar.scss';
 import axios from 'axios';
+import { Context } from './../../context-api/context';
 
 function SearchBar({ setSearchParams }) {
-  const headersAPI = {
-    'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
-    'x-rapidapi-key': 'a4fe706396msh8c839cd1e6751fap164a0fjsnfc32d56a60d2',
-  };
-
-  const API_URL = 'https://rawg-video-games-database.p.rapidapi.com';
+  const [{ headersAPI, API_URL }] = useContext(Context);
   const [state, setstate] = useState('');
   //   useEffect(() => {
   //     axios({

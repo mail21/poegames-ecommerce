@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './ProductPage.scss';
 import arrow from './../../assets/arrow.svg';
 import ProductRatings from './../../component/ProductRatings/ProductRatings';
@@ -6,14 +6,10 @@ import Carousel from 'react-elastic-carousel';
 import axios from 'axios';
 import PlatformsList from '../../component/PlatformsList/PlatformsList';
 import PacmanLoader from 'react-spinners/PacmanLoader';
+import { Context } from './../../context-api/context';
 
 function ProductPage({ history, match }) {
-  const headersAPI = {
-    'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
-    'x-rapidapi-key': 'a4fe706396msh8c839cd1e6751fap164a0fjsnfc32d56a60d2',
-  };
-
-  const API_URL = 'https://rawg-video-games-database.p.rapidapi.com';
+  const [{ headersAPI, API_URL }] = useContext(Context);
 
   const [game, setGame] = useState({});
   const [publishers, setPublishers] = useState([]);
@@ -73,14 +69,14 @@ function ProductPage({ history, match }) {
           <>
             <div className="container__nav">
               <div className="container__nav__left">
-                <div onClick={() => history.goBack()} style={{ cursor: 'pointer' }}>
+                <div
+                  onClick={() => history.goBack()}
+                  style={{ display: 'flex', cursor: 'pointer' }}
+                >
                   <img src={arrow} alt="arrow" className="arrowback" />
-                  <span style={{ marginRight: '50px' }}>Back</span>
+                  <div style={{ marginRight: '30px' }}>Back</div>
                 </div>
-                <h3>{game.name_original}</h3>
-              </div>
-              <div className="container__nav__right">
-                <h3>Search bar</h3>
+                <h3 style={{ marginLeft: '10px' }}>{game.name_original}</h3>
               </div>
             </div>
 
