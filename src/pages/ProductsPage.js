@@ -5,6 +5,7 @@ import { ReactComponent as Hearth } from './../assets/hearth.svg';
 import './ProductsPage.scss';
 import axios from 'axios';
 import CheckboxGroup from 'react-checkbox-group';
+import PacmanLoader from 'react-spinners/PacmanLoader';
 
 function ProductsPage() {
   const headersAPI = {
@@ -27,16 +28,21 @@ function ProductsPage() {
     '2018',
     '2019',
   ];
-  const [years, setYears] = useState(yearsList);
-  const [showSort, setShowSort] = useState(false);
-  const [showCategories, setShowCategories] = useState(false);
+  const [years] = useState(yearsList);
+  const [showReleases, setShowReleases] = useState(false);
+  const [showGenres, setShowGenres] = useState(false);
+  const [showPlatforms, setShowPlatforms] = useState(false);
   const [isFavouriteClick, setIsFavouriteClick] = useState(false);
   const [listGames, setListGames] = useState([]);
+  const [listPlatforms, setListPlatforms] = useState([]);
   const [listGenres, setListGenres] = useState([]);
   const [genresParams, setGenresParams] = useState([]);
   const [releasesParams, setReleasesParams] = useState('');
+  const [platformParams, setPlatformParams] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .all([
         axios({
@@ -47,6 +53,7 @@ function ProductsPage() {
             page: 1,
             search: '',
             page_size: 3,
+            parent_platforms: platformParams.length ? platformParams.join() : null,
             genres: genresParams.length ? genresParams.join() : null,
             dates: releasesParams !== '' ? releasesParams : null,
           },
@@ -56,14 +63,21 @@ function ProductsPage() {
           url: `${API_URL}/genres`,
           headers: headersAPI,
         }),
+        axios({
+          method: 'GET',
+          url: `${API_URL}/platforms/lists/parents`,
+          headers: headersAPI,
+        }),
       ])
       .then(
-        axios.spread((res1, res2) => {
+        axios.spread((res1, res2, res3) => {
+          setIsLoading(false);
           setListGames(res1.data.results);
           setListGenres(res2.data.results);
+          setListPlatforms(res3.data.results);
         })
       );
-  }, [genresParams, releasesParams]);
+  }, [genresParams, releasesParams, platformParams]);
 
   return (
     <div>
@@ -73,7 +87,7 @@ function ProductsPage() {
           <div className="produtcs__sidebar__items">
             <div
               className="produtcs__sidebar__items__div"
-              onClick={() => setShowSort((prev) => !prev)}
+              onClick={() => setShowReleases((prev) => !prev)}
             >
               <span style={{ marginLeft: '20px' }}>Releases</span>
               <img
@@ -81,11 +95,13 @@ function ProductsPage() {
                 src={arrow}
                 alt="arrow"
                 style={
-                  showSort ? { transform: 'rotate(270deg)' } : { transform: 'rotate(90deg)' }
+                  showReleases
+                    ? { transform: 'rotate(270deg)' }
+                    : { transform: 'rotate(90deg)' }
                 }
               />
             </div>
-            {showSort ? (
+            {showReleases ? (
               <>
                 {years.map((year, i) => (
                   <div className="item__list" key={i}>
@@ -109,7 +125,7 @@ function ProductsPage() {
           <div className="produtcs__sidebar__items">
             <div
               className="produtcs__sidebar__items__div"
-              onClick={() => setShowCategories((prev) => !prev)}
+              onClick={() => setShowGenres((prev) => !prev)}
             >
               <span style={{ marginLeft: '20px' }}>Genres</span>
               <img
@@ -117,14 +133,12 @@ function ProductsPage() {
                 src={arrow}
                 alt="arrow"
                 style={
-                  showCategories
-                    ? { transform: 'rotate(270deg)' }
-                    : { transform: 'rotate(90deg)' }
+                  showGenres ? { transform: 'rotate(270deg)' } : { transform: 'rotate(90deg)' }
                 }
               />
             </div>
 
-            {showCategories ? (
+            {showGenres ? (
               <>
                 <CheckboxGroup name="genres" value={genresParams} onChange={setGenresParams}>
                   {(Checkbox) => (
@@ -135,6 +149,49 @@ function ProductsPage() {
                             {genre.name}
                           </label>
                           <Checkbox id={genre.name} value={genre.slug} />
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </CheckboxGroup>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="produtcs__sidebar__items" style={{ borderBottom: '1px solid' }}>
+            <div
+              className="produtcs__sidebar__items__div"
+              onClick={() => setShowPlatforms((prev) => !prev)}
+            >
+              <span style={{ marginLeft: '20px' }}>Platforms</span>
+              <img
+                className="arrow"
+                src={arrow}
+                alt="arrow"
+                style={
+                  showPlatforms
+                    ? { transform: 'rotate(270deg)' }
+                    : { transform: 'rotate(90deg)' }
+                }
+              />
+            </div>
+
+            {showPlatforms ? (
+              <>
+                <CheckboxGroup
+                  name="genres"
+                  value={platformParams}
+                  onChange={setPlatformParams}
+                >
+                  {(Checkbox) => (
+                    <>
+                      {listPlatforms.slice(0, 8).map((platform) => (
+                        <div className="item__list" key={platform.id}>
+                          <label htmlFor={platform.name} style={{ cursor: 'pointer' }}>
+                            {platform.name}
+                          </label>
+                          <Checkbox id={platform.name} value={platform.id} />
                         </div>
                       ))}
                     </>
@@ -166,16 +223,22 @@ function ProductsPage() {
           className="produtcs__cardList"
           style={{ display: 'flex', flexWrap: 'wrap', alignSelf: 'baseline' }}
         >
-          {listGames.map((el) => (
-            <ProductsCard
-              key={el.id}
-              slug={el.slug}
-              name={el.name}
-              gambar={el.background_image}
-              rating={el.rating}
-              released={el.released}
-            />
-          ))}
+          {isLoading ? (
+            <div className="container__loader">
+              <PacmanLoader size={50} color={'yellow'} />
+            </div>
+          ) : (
+            listGames.map((el) => (
+              <ProductsCard
+                key={el.id}
+                slug={el.slug}
+                name={el.name}
+                gambar={el.background_image}
+                rating={el.rating}
+                released={el.released}
+              />
+            ))
+          )}
         </article>
       </div>
     </div>
