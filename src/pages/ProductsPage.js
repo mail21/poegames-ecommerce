@@ -31,7 +31,7 @@ function ProductsPage() {
           params: {
             page: 1,
             search: '',
-            page_size: 10,
+            page_size: 5,
             genres: genresParams.length ? genresParams.join() : null,
           },
         }),
@@ -59,7 +59,7 @@ function ProductsPage() {
               className="produtcs__sidebar__items__div"
               onClick={() => setShowSort((prev) => !prev)}
             >
-              <span style={{ marginLeft: '20px' }}>Sort By</span>
+              <span style={{ marginLeft: '20px' }}>Releases</span>
               <img
                 className="arrow"
                 src={arrow}
@@ -83,7 +83,7 @@ function ProductsPage() {
               className="produtcs__sidebar__items__div"
               onClick={() => setShowCategories((prev) => !prev)}
             >
-              <span style={{ marginLeft: '20px' }}>Categories</span>
+              <span style={{ marginLeft: '20px' }}>Genres</span>
               <img
                 className="arrow"
                 src={arrow}
@@ -98,12 +98,15 @@ function ProductsPage() {
 
             {showCategories ? (
               <>
-                <CheckboxGroup name="fruits" value={genresParams} onChange={setGenresParams}>
+                <CheckboxGroup name="genres" value={genresParams} onChange={setGenresParams}>
                   {(Checkbox) => (
                     <>
-                      {listGenres.map((el) => (
-                        <div className="item__list" key={el.id}>
-                          {el.name} <Checkbox value={el.slug} />
+                      {listGenres.map((genre) => (
+                        <div className="item__list" key={genre.id}>
+                          <label htmlFor={genre.name} style={{ cursor: 'pointer' }}>
+                            {genre.name}
+                          </label>
+                          <Checkbox id={genre.name} value={genre.slug} />
                         </div>
                       ))}
                     </>
@@ -131,7 +134,10 @@ function ProductsPage() {
             <span>My Wishlist(0)</span>
           </div>
         </aside>
-        <article className="produtcs__cardList" style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <article
+          className="produtcs__cardList"
+          style={{ display: 'flex', flexWrap: 'wrap', alignSelf: 'baseline' }}
+        >
           {listGames.map((el) => (
             <ProductsCard
               key={el.id}

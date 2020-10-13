@@ -3,21 +3,35 @@ body {
 }
 
 .produtcs__container {
+  width: 90%;
   display: flex;
   color: white;
   padding: 20px;
+  margin: auto;
   .produtcs__sidebar {
     flex: 0.7;
-    margin-right: 30px;
+    margin-right: 80px;
 
     .produtcs__sidebar__items {
       border-top: 1px solid;
-      border-bottom: 1px solid;
-      padding: 10px;
 
       .item__list {
-        margin: 15px 0;
+        margin: 7px 0;
         color: rgb(143, 143, 143);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        & input {
+          width: 20px;
+          height: 30px;
+          border: 1px solid white;
+          filter: opacity(0.05);
+
+          &:checked {
+            filter: opacity(0.9);
+          }
+        }
+
         &:hover {
           color: white;
         }
