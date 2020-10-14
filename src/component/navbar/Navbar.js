@@ -22,7 +22,7 @@ function Navbar() {
           <CartIcon />
         </li>
         <li>
-          <a href="#">LOGIN</a>
+          <a href="/login">LOGIN</a>
         </li>
         <li>
           <a href="#">DAFTAR</a>
