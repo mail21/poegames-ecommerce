@@ -1,60 +1,45 @@
-import React from 'react';
-
+import React, { useEffect, useContext, useState } from 'react';
+import { Context } from './../../context-api/context';
 import './LoginPage.scss';
+import axios from 'axios';
 
 function LoginPage() {
-  const [isFocus, setIsFocus] = React.useState(false);
+  const [{ headersAPI, API_URL }] = useContext(Context);
+  const [gambar, setGambar] = useState(null);
+  useEffect(() => {
+    axios({
+      method: 'GET',
+      headers: headersAPI,
+      url: `${API_URL}/games/${Math.floor(Math.random() * Math.floor(500))}`,
+    }).then((res) => {
+      if (res.data.background_image) {
+        setGambar(res.data.background_image);
+      } else {
+        setGambar(
+          'https://media.rawg.io/media/games/eb5/eb514db62d397c64288160d5bd8fd67a.jpg'
+        );
+      }
+    });
+  }, []);
+
   return (
     <div className="container__parent__login">
-      <img
-        src="https://media.rawg.io/media/games/84d/84da2ac3fdfc6507807a1808595afb12.jpg"
-        alt="as"
-        className="container__gambar"
-      />
+      <img src={gambar} alt="Background image" className="container__gambar" />
 
       <div className="container__login">
         <form>
           <span className="login__title">Login</span>
 
-          <div className="login__input" onClick={() => setIsFocus((prev) => !prev)}>
-            <input
-              className="input"
-              type="text"
-              name="email"
-              style={isFocus ? { marginBottom: '22px' } : {}}
-            />
+          <div className="login__input">
+            <input className="input" type="text" name="email" />
             <span className="focus__input"></span>
-            <span
-              style={isFocus ? { top: '10px', fontSize: '16px' } : {}}
-              className="login__label"
-            >
-              Email
-            </span>
+            <span className="login__label">Email</span>
           </div>
 
           <div className="login__input">
-            <input
-              className="input"
-              type="password"
-              name="pass"
-              style={isFocus ? { marginBottom: '22px' } : {}}
-            />
+            <input className="input" type="password" name="pass" />
             <span className="focus__input"></span>
-            <span
-              style={isFocus ? { top: '10px', fontSize: '16px' } : {}}
-              className="login__label"
-            >
-              Password
-            </span>
-          </div>
-
-          <div className="login__desc">
-            <div className="login__checkbox">
-              <input className="input-checkbox" id="ckb1" type="checkbox" name="remember-me" />
-              <label className="label-checkbox100" htmlFor="ckb1">
-                Remember me
-              </label>
-            </div>
+            <span className="login__label">Password</span>
           </div>
 
           <div className="login__button">
