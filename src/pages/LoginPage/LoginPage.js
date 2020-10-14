@@ -5,7 +5,7 @@ import './LoginPage.scss';
 function LoginPage() {
   const [isFocus, setIsFocus] = React.useState(false);
   return (
-    <div className="container">
+    <div className="container__parent__login">
       <img
         src="https://media.rawg.io/media/games/84d/84da2ac3fdfc6507807a1808595afb12.jpg"
         alt="as"

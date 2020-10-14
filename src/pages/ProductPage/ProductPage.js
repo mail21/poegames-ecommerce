@@ -60,7 +60,7 @@ function ProductPage({ history, match }) {
         backgroundImage: `url(${game.background_image})`,
       }}
     >
-      <div className="container">
+      <div className="container__parent__product">
         {isLoading ? (
           <div className="container__loader">
             <PacmanLoader size={50} color={'yellow'} />
