@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import { Context } from './../../context-api/context';
 import './LoginPage.scss';
 import axios from 'axios';
+import google from './../../assets/google.png';
 
 function LoginPage() {
   const [{ headersAPI, API_URL }] = useContext(Context);
@@ -24,7 +25,7 @@ function LoginPage() {
 
   return (
     <div className="container__parent__login">
-      <img src={gambar} alt="Background image" className="container__gambar" />
+      <img src={gambar} alt="" className="container__gambar" />
 
       <div className="container__login">
         <form>
@@ -48,6 +49,11 @@ function LoginPage() {
 
           <div className="login__text">
             <span>or sign up using</span>
+          </div>
+
+          <div className="login__google">
+            <img src={google} alt="googel" />
+            <button className="login100-form-btn">Login With Google</button>
           </div>
         </form>
       </div>
