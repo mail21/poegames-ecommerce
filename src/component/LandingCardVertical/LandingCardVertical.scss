@@ -1,6 +1,5 @@
 .landingcardvertical__container {
   position: relative;
-  background-color: white;
   border-radius: 10px;
   margin-bottom: 20px;
   text-decoration: none;
@@ -10,6 +9,10 @@
     height: 180px;
     object-fit: cover;
     border-radius: 10px;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 
   .LandingCardVertical__title {

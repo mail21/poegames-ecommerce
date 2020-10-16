@@ -134,5 +134,9 @@ img {
     background-image: linear-gradient(to right, #663418, #2d170c);
     text-decoration: none;
     cursor: pointer;
+
+    &:hover {
+      background: rgba(102, 52, 24, 0.9);
+    }
   }
 }
