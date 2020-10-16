@@ -48,7 +48,7 @@ function LoginPage() {
           </div>
 
           <div className="login__text">
-            <span>or sign up using</span>
+            <span>or login using</span>
           </div>
 
           <div className="login__google">
