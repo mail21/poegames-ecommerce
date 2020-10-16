@@ -3,9 +3,6 @@ import './HomeSlideShow.scss';
 import { Link } from 'react-router-dom';
 
 function HomeSlideShow({ dataSlide }) {
-  useEffect(() => {
-    console.log(dataSlide);
-  }, [dataSlide]);
   let [slideIndex, setSlideIndex] = useState(1);
   const plusSlides = () => {
     if (slideIndex === 3) {
