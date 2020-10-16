@@ -84,7 +84,9 @@ function ProductPage({ history, match }) {
               <Carousel itemsToShow={1} focusOnSelect>
                 {screenShot.map((ss, i) => {
                   if (screenShot.length === i + 1) {
-                    return <video key={ss.id} src={clip.clip} controls></video>;
+                    return (
+                      <video key={ss.id} src={clip === null ? '' : clip.clip} controls></video>
+                    );
                   } else {
                     return (
                       <img
