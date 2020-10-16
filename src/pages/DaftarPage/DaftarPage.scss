@@ -1,0 +1,10 @@
+.container__gambar__daftar {
+  flex: 1.25;
+  width: 50%;
+  object-fit: cover;
+  height: 119vh;
+
+  &:focus {
+    outline: none;
+  }
+}
