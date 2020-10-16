@@ -1,0 +1,28 @@
+.container__landing {
+  padding: 20px 30px;
+
+  & .container__loader__landing {
+    display: flex;
+    justify-content: center;
+    height: 70vh;
+    align-items: center;
+  }
+
+  & h3 {
+    color: white;
+    margin-left: 20px;
+  }
+
+  .container__main__landing {
+    display: flex;
+    // .container__cards__landing {
+    //   // flex: 2;
+    // }
+
+    .container__sideCards {
+      flex: 1;
+      // padding: 0 20px;
+      padding-left: 27px;
+    }
+  }
+}

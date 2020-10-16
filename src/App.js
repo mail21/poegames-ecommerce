@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from './component/navbar/Navbar';
-
+import LandingPage from './pages/LandingPage/LandingPage';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
 import ProductPage from './pages/ProductPage/ProductPage';
 import DaftarPage from './pages/DaftarPage/DaftarPage';
@@ -14,7 +14,7 @@ function App() {
       <Navbar />
 
       <Switch>
-        <Route exact path="/" component={ProductsPage} />
+        <Route exact path="/" component={LandingPage} />
         <Route exact path="/products" component={ProductsPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={DaftarPage} />
