@@ -18,7 +18,7 @@ function Navbar() {
           <Link to="/products">Products</Link>
         </li>
         <li>
-          <a href="#">Checkout</a>
+          <Link to="/checkout">Checkout</Link>
           <CartIcon />
         </li>
         <li>
