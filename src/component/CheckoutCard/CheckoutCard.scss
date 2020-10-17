@@ -1,0 +1,43 @@
+.checkoutcard__container {
+  display: flex;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-bottom: 1px solid;
+
+  .checkoutcard__gambar {
+    width: 20%;
+    flex: 0.5;
+  }
+
+  .checkoutcard__desc {
+    flex: 1.5;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    & .checkoutcard__item__1 {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-bottom: 1px solid;
+      & .checkoutcard__item__1__desc {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    & .checkoutcard__item__2 {
+      display: flex;
+      justify-content: flex-end;
+
+      & > button {
+        border: 1px solid lightblue;
+        background-color: rgb(43, 32, 94);
+        padding: 10px 20px;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+}
