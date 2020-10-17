@@ -1,0 +1,18 @@
+.checkout__container {
+  width: 90%;
+  margin: 20px auto;
+  color: white;
+  background-color: black;
+  padding: 20px;
+  & > main {
+    display: flex;
+  }
+
+  .checkout__card__list {
+    flex: 2;
+  }
+
+  .checkout__total {
+    flex: 1;
+  }
+}
