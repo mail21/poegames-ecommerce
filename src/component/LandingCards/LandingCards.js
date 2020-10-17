@@ -27,8 +27,6 @@ function LandingCards({ ordering, dates, pPlatforms, publishers }) {
       },
     })
       .then((res) => {
-        console.log(res);
-
         setGames(res.data.results);
       })
       .catch((err) => console.log(err));
