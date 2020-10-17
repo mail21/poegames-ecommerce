@@ -55,13 +55,13 @@ function LandingPage() {
           <HomeSlideShow dataSlide={slideData} />
           <main className="container__main__landing">
             <div className="container__cards__landing">
-              <h3>New releases</h3>
+              <h3>New Releases</h3>
               <LandingCards
                 ordering="-released"
                 dates="2020-01-01,2020-07-29"
                 pPlatforms="2,3"
               />
-              <h3>Highest Rated Game On PlayStation</h3>
+              <h3>Highest Rated Games On PlayStation</h3>
               <LandingCards
                 ordering="-rating"
                 publishers="electronic-arts"
@@ -75,7 +75,7 @@ function LandingPage() {
               />
             </div>
             <div className="container__sideCards">
-              <h3>Most Added games</h3>
+              <h3>Most Added Games</h3>
 
               {data.slice(0, 6).map((el) => (
                 <LandingCardVertical
