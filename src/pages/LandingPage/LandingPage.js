@@ -56,17 +56,30 @@ function LandingPage() {
           <main className="container__main__landing">
             <div className="container__cards__landing">
               <h3>New releases</h3>
-              <LandingCards />
+              <LandingCards
+                ordering="-released"
+                dates="2020-01-01,2020-07-29"
+                pPlatforms="2,3"
+              />
               <h3>Highest Rated Game On PlayStation</h3>
-              <LandingCards />
+              <LandingCards
+                ordering="-rating"
+                publishers="electronic-arts"
+                dates="2010-01-01,2020-07-29"
+              />
               <h3>Most Added Games On Ubisoft</h3>
-              <LandingCards />
+              <LandingCards
+                ordering="-added"
+                publishers="ubisoft-entertainment"
+                dates="2010-01-01,2020-07-29"
+              />
             </div>
             <div className="container__sideCards">
               <h3>Most Added games</h3>
 
               {data.slice(0, 6).map((el) => (
                 <LandingCardVertical
+                  key={el.id}
                   name={el.name}
                   add={el.added}
                   image={el.background_image}

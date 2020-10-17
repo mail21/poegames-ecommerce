@@ -1,13 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ProductsCard from './../ProductsCard/ProductsCard';
+import axios from 'axios';
 
 import './LandingCards.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import { Context } from './../../context-api/context';
 
-function LandingCards() {
+function LandingCards({ ordering, dates, pPlatforms, publishers }) {
+  const [{ headersAPI, API_URL }] = useContext(Context);
   const [hover, setHover] = useState(false);
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: 'GET',
+      headers: headersAPI,
+      url: `${API_URL}/games`,
+      params: {
+        page_size: 8,
+        ordering: ordering,
+        dates: dates,
+        parent_platforms: pPlatforms,
+        publishers: publishers,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+
+        setGames(res.data.results);
+      })
+      .catch((err) => console.log(err));
+  }, [games]);
+
   const settings = {
     infinite: true,
     speed: 700,
@@ -21,41 +47,16 @@ function LandingCards() {
       onMouseLeave={() => setHover(false)}
     >
       <Slider {...settings} arrows={hover}>
-        <ProductsCard
-          slug={'el.slug'}
-          name={'el.name'}
-          gambar={'https://media.rawg.io/media/games/eb5/eb514db62d397c64288160d5bd8fd67a.jpg'}
-          rating={5}
-          released={'2020'}
-        />
-        <ProductsCard
-          slug={'el.slug'}
-          name={'el.name'}
-          gambar={'https://media.rawg.io/media/games/eb5/eb514db62d397c64288160d5bd8fd67a.jpg'}
-          rating={5}
-          released={'2020'}
-        />
-        <ProductsCard
-          slug={'el.slug'}
-          name={'el.name'}
-          gambar={'https://media.rawg.io/media/games/eb5/eb514db62d397c64288160d5bd8fd67a.jpg'}
-          rating={5}
-          released={'2020'}
-        />
-        <ProductsCard
-          slug={'el.slug'}
-          name={'el.name'}
-          gambar={'https://media.rawg.io/media/games/eb5/eb514db62d397c64288160d5bd8fd67a.jpg'}
-          rating={5}
-          released={'2020'}
-        />
-        <ProductsCard
-          slug={'el.slug'}
-          name={'el.name'}
-          gambar={'https://media.rawg.io/media/games/eb5/eb514db62d397c64288160d5bd8fd67a.jpg'}
-          rating={5}
-          released={'2020'}
-        />
+        {games.map((game) => (
+          <ProductsCard
+            key={game.id}
+            slug={game.slug}
+            name={game.name}
+            gambar={game.background_image}
+            rating={game.rating}
+            released={game.released}
+          />
+        ))}
       </Slider>
     </div>
   );
