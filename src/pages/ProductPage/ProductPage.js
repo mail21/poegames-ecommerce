@@ -10,7 +10,7 @@ import { Context } from './../../context-api/context';
 
 function ProductPage({ history, match }) {
   const [{ headersAPI, API_URL }] = useContext(Context);
-
+  const [choosePlatform, setChoosePlatform] = useState('');
   const [game, setGame] = useState({});
   const [publishers, setPublishers] = useState([]);
   const [developers, setDevelopers] = useState([]);
@@ -22,6 +22,14 @@ function ProductPage({ history, match }) {
   const [platforms, setPlatforms] = useState([]);
   const [isReadMoreClick, setIsReadMoreClick] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const dropdownChange = (e) => {
+    if (e.target.value === 'Choose Platforms') {
+      setChoosePlatform(``);
+    } else {
+      setChoosePlatform(` On ${e.target.value}`);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -39,7 +47,6 @@ function ProductPage({ history, match }) {
       ])
       .then(
         axios.spread((res, resSS) => {
-          // console.log(res.data);
           setIsLoading(false);
           setGame(res.data);
           setClip(res.data.clip);
@@ -101,6 +108,29 @@ function ProductPage({ history, match }) {
                   }
                 })}
               </Carousel>
+            </div>
+
+            <div className="container__dropdownPrice">
+              <select name="price" className="dropdownPrice" onChange={dropdownChange}>
+                <option>Choose Platforms</option>
+                {platforms.map(({ platform }) => (
+                  <option style={{ padding: '20px' }} key={platform.id} value={platform.name}>
+                    {platform.name}
+                  </option>
+                ))}
+              </select>
+
+              <div className="container__button__price">
+                <button
+                  disabled={choosePlatform === '' ? true : false}
+                  style={
+                    choosePlatform === ''
+                      ? { opacity: '0.9', cursor: 'not-allowed' }
+                      : { cursor: 'pointer' }
+                  }
+                  onClick={(e) => console.log('asd')}
+                >{`Buy ${game.name_original} ${choosePlatform}`}</button>
+              </div>
             </div>
 
             <section className="container__desc">
