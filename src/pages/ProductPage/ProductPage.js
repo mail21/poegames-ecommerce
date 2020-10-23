@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ProductPage.scss';
 import arrow from './../../assets/arrow.svg';
 import ProductRatings from './../../component/ProductRatings/ProductRatings';
@@ -6,10 +6,11 @@ import Carousel from 'react-elastic-carousel';
 import axios from 'axios';
 import PlatformsList from '../../component/PlatformsList/PlatformsList';
 import PacmanLoader from 'react-spinners/PacmanLoader';
-import { Context } from './../../context-api/context';
+import { useContextValue } from './../../context-api/context';
 
 function ProductPage({ history, match }) {
-  const [{ headersAPI, API_URL }] = useContext(Context);
+  const [{ headersAPI, API_URL }] = useContextValue();
+
   const [choosePlatform, setChoosePlatform] = useState('');
   const [game, setGame] = useState({});
   const [publishers, setPublishers] = useState([]);

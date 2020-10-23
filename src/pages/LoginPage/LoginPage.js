@@ -1,11 +1,11 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { Context } from './../../context-api/context';
+import React, { useEffect, useState } from 'react';
+import { useContextValue } from './../../context-api/context';
 import './LoginPage.scss';
 import axios from 'axios';
 import google from './../../assets/google.png';
 
 function LoginPage() {
-  const [{ headersAPI, API_URL }] = useContext(Context);
+  const [{ headersAPI, API_URL }] = useContextValue();
   const [gambar, setGambar] = useState(null);
   useEffect(() => {
     axios({

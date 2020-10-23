@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductsCard from './../../component/ProductsCard/ProductsCard';
 import { ReactComponent as Hearth } from './../../assets/hearth.svg';
 import './ProductsPage.scss';
@@ -7,10 +7,10 @@ import PacmanLoader from 'react-spinners/PacmanLoader';
 import SearchBar from './../../component/SearchBar/SearchBar';
 import Pagination from './../../component/Pagination/Pagination';
 import ProductsSideBarItem from './../../component/ProductsSideBarItem/ProductsSideBarItem';
-import { Context } from './../../context-api/context';
+import { useContextValue } from './../../context-api/context';
 
 function ProductsPage() {
-  const [{ yearsList, headersAPI, API_URL }] = useContext(Context);
+  const [{ yearsList, headersAPI, API_URL }] = useContextValue();
   const [showReleases, setShowReleases] = useState(false);
   const [showGenres, setShowGenres] = useState(false);
   const [showPlatforms, setShowPlatforms] = useState(false);
