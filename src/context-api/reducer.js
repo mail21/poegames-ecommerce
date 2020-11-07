@@ -20,7 +20,10 @@ export const initialState = {
   ],
 };
 
-export const actionTypes = {};
+export const actionTypes = {
+  ADD_CART: 'ADD_CART',
+  REMOVE_CART: 'REMOVE_CART',
+};
 
 export const reducer = (state, action) => {
   switch (action.type) {
